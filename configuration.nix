@@ -54,6 +54,22 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
+# Enable Niri
+programs.niri.enable = true;
+
+# DankMaterialShell
+  programs.dms-shell = {
+    enable = true;
+
+    systemd = {
+      enable = true;
+      restartIfChanged = true;
+    };
+
+    enableSystemMonitoring = true;
+    enableDynamicTheming = true;
+  };
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
