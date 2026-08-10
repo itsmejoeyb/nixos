@@ -8,22 +8,32 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
-    {
-      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+  outputs = { self, nixpkgs, home-manager, dms, ... }: {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
 
-        modules = [
-          ./configuration.nix
+      modules = [
+        ./configuration.nix
 
-          home-manager.nixosModules.home-manager
+        home-manager.nixosModules.home-manager
 
-          {
-            home-manager.users.joey = import ./home.nix;
-          }
-        ];
-      };
+        {
+          home-manager.users.joey = {
+            imports = [
+              ./home.nix
+
+              dms.homeModules.dank-material-shell
+            ];
+          };
+        }
+      ];
     };
+  };
 }

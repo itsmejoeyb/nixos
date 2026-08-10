@@ -57,19 +57,6 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 # Enable Niri
 programs.niri.enable = true;
 
-# DankMaterialShell
-  programs.dms-shell = {
-    enable = true;
-
-    systemd = {
-      enable = true;
-      restartIfChanged = true;
-    };
-
-    enableSystemMonitoring = true;
-    enableDynamicTheming = true;
-  };
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -121,6 +108,7 @@ programs.niri.enable = true;
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
 git
+xwayland-satellite
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
