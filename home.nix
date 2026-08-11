@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   home.username = "joey";
@@ -10,7 +10,15 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    initLua = builtins.readFile ./nvim/init.lua;
   };
+
+  xdg.configFile."nvim/lua" = { source = ./nvim/lua; recursive = true; };
+  xdg.configFile."nvim/colors" = { source = ./nvim/colors; recursive = true; };
+  xdg.configFile."nvim/plugin" = { source = ./nvim/plugin; recursive = true; };
+  xdg.configFile."nvim/lazy-lock.json".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/nvim/lazy-lock.json";
+  xdg.configFile."nvim/.stylua.toml".source = ./nvim/.stylua.toml;
 
   home.sessionVariables = {
     EDITOR = "nvim";
@@ -34,5 +42,17 @@
     tmux
     ghostty
     fzf
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    libwebp
+    gnumake
+    gcc
+    unzip
+    ripgrep
+    fd
+    lazygit
+    stylua
+    tree-sitter
+    python3
   ];
 }
