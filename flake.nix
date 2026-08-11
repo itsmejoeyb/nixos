@@ -13,27 +13,55 @@
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
-
-  outputs = { self, nixpkgs, home-manager, dms, ... }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-
-      modules = [
-        ./configuration.nix
-
-        home-manager.nixosModules.home-manager
-
-        {
-          home-manager.users.joey = {
-            imports = [
-              ./home.nix
-
-              dms.homeModules.dank-material-shell
-            ];
-          };
-        }
-      ];
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      dms,
+      ...
+    }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs {
+        inherit system;
+      };
+
+      chatgpt = import ./chatgpt.nix {
+        inherit pkgs;
+      };
+    in
+    {
+      packages.${system}.chatgpt = chatgpt;
+
+      nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit inputs chatgpt; };
+        inherit system;
+
+        modules = [
+          ./configuration.nix
+
+          home-manager.nixosModules.home-manager
+
+          {
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+
+            home-manager.users.joey = {
+              imports = [
+                ./home.nix
+
+                dms.homeModules.dank-material-shell
+              ];
+            };
+          }
+        ];
+      };
+    };
 }

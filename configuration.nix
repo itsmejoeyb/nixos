@@ -2,14 +2,22 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  inputs,
+  chatgpt,
+  pkgs,
+  ...
+}:
 
 {
-nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -27,6 +35,7 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Enable networking
   networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Detroit";
@@ -54,8 +63,15 @@ nix.settings.experimental-features = [ "nix-command" "flakes" ];
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-# Enable Niri
-programs.niri.enable = true;
+  # Enable Niri
+  programs.niri.enable = true;
+
+  # Enable Zsh
+  programs.zsh.enable = true;
+
+  # Enable applications that need system-level integration.
+  programs.steam.enable = true;
+  virtualisation.docker.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -87,12 +103,17 @@ programs.niri.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."joey" = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     description = "Joey";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "docker"
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
       kdePackages.kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -105,10 +126,10 @@ programs.niri.enable = true;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-git
-xwayland-satellite
+    chatgpt
+    git
+    inputs.zen-browser.packages.${pkgs.system}.default
+    xwayland-satellite
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
