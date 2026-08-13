@@ -66,6 +66,16 @@
   # Enable Niri
   programs.niri.enable = true;
 
+  # Keep Niri's GNOME portal for desktop integration, but use KDE's file
+  # chooser so applications such as Zen get Dolphin-style file selection.
+  xdg.portal.config.niri = {
+    default = [
+      "gnome"
+      "gtk"
+    ];
+    "org.freedesktop.impl.portal.FileChooser" = [ "kde" ];
+  };
+
   # Enable Zsh
   programs.zsh.enable = true;
 

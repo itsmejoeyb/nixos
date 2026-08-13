@@ -50,6 +50,7 @@
     alacritty
     pnpm
     nodejs
+    go
     localsend
     codex
     tmux
@@ -58,6 +59,12 @@
     zsh-autosuggestions
     zsh-syntax-highlighting
     libwebp
+    parallel
+    kdePackages.ark
+    zip
+    unzip
+    p7zip
+    unrar
     gnumake
     gcc
     unzip
@@ -69,5 +76,6 @@
     tree-sitter
     inputs.fetch3d.packages.${pkgs.stdenv.hostPlatform.system}.default
     python3
+    bubblewrap
   ];
 }
