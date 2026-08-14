@@ -5,6 +5,7 @@
 {
   inputs,
   chatgpt,
+  astro-editor,
   pkgs,
   ...
 }:
@@ -136,6 +137,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    astro-editor
     chatgpt
     git
     inputs.zen-browser.packages.${pkgs.system}.default

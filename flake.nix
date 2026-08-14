@@ -36,12 +36,15 @@
       chatgpt = import ./chatgpt.nix {
         inherit pkgs;
       };
+      astro-editor = pkgs.callPackage ./astro-editor.nix { };
     in
     {
-      packages.${system}.chatgpt = chatgpt;
+      packages.${system} = {
+        inherit astro-editor chatgpt;
+      };
 
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs chatgpt; };
+        specialArgs = { inherit inputs chatgpt astro-editor; };
         inherit system;
 
         modules = [
