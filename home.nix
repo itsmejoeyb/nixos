@@ -30,18 +30,6 @@
     enable = true;
   };
 
-  services.easyeffects = {
-    enable = true;
-    extraPresets."Lenovo-Slim-7-Speakers" =
-      builtins.fromJSON (builtins.readFile ./easyeffects/Lenovo-Slim-7-Speakers.json);
-  };
-
-  xdg.dataFile."easyeffects/autoload/output/alsa_output.pci-0000_00_1f.3-platform-sof_sdw.HiFi__Speaker__sink:Speaker.json".text = builtins.toJSON {
-    device = "alsa_output.pci-0000_00_1f.3-platform-sof_sdw.HiFi__Speaker__sink";
-    device-description = "Lunar Lake-M HD Audio Controller Speaker";
-    device-profile = "Speaker";
-    preset-name = "Lenovo-Slim-7-Speakers";
-  };
 
   home.stateVersion = "26.05";
 
@@ -60,7 +48,7 @@
     zsh-syntax-highlighting
     libwebp
     parallel
-    kdePackages.ark
+    file-roller
     zip
     unzip
     p7zip
@@ -77,5 +65,6 @@
     inputs.fetch3d.packages.${pkgs.stdenv.hostPlatform.system}.default
     python3
     bubblewrap
+    thunderbird
   ];
 }
