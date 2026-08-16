@@ -41,6 +41,7 @@
     go
     localsend
     codex
+    kdePackages.dolphin
     tmux
     ghostty
     fzf
